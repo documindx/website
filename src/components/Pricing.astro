@@ -1,0 +1,86 @@
+---
+import { getLocaleFromUrl, useTranslations } from '../i18n/utils'
+const locale = getLocaleFromUrl(Astro.url)
+const t = useTranslations(locale)
+
+const plans = [
+  {
+    name: t('pricing.free'), price: '0', period: t('pricing.free.forever'),
+    features: [`20 ${t('pricing.scan')}`, `100 ${t('pricing.semantic')}`, t('pricing.briefing.limited'), `500 MB ${t('pricing.storage')}`],
+    cta: t('pricing.cta.free'), highlight: false,
+  },
+  {
+    name: 'Pro', price: '28', yearPrice: '298', yearSave: `${t('pricing.yearly.save')} ¥38`,
+    period: t('pricing.period'),
+    features: [`300 ${t('pricing.scan')}`, t('pricing.semantic.unlimited'), `10 ${t('pricing.ai')}`, t('pricing.briefing.all'), `10 GB ${t('pricing.storage')}`, t('pricing.export.standard')],
+    cta: t('pricing.cta.pro'), highlight: true,
+  },
+  {
+    name: 'Ultra', price: '58', yearPrice: '598', yearSave: `${t('pricing.yearly.save')} ¥98`,
+    period: t('pricing.period'),
+    features: [`1000 ${t('pricing.scan')}`, t('pricing.semantic.unlimited'), t('pricing.ai.unlimited'), t('pricing.briefing.priority'), `100 GB ${t('pricing.storage')}`, t('pricing.export.all')],
+    cta: t('pricing.cta.ultra'), highlight: false,
+  },
+]
+---
+
+<section id="pricing" class="py-24 sm:py-32">
+  <div class="max-w-5xl mx-auto px-6">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl sm:text-4xl font-bold reveal">{t('pricing.title')}</h2>
+      <p class="mt-4 text-gray-500 dark:text-gray-400">{t('pricing.subtitle')}</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+      {plans.map(plan => (
+        <div class={`relative flex flex-col p-8 rounded-2xl transition-all duration-300
+          ${plan.highlight
+            ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900 scale-[1.02] shadow-2xl shadow-gray-900/20 dark:shadow-white/20'
+            : 'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700'
+          }`}>
+          {plan.highlight && (
+            <span class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 text-xs font-medium rounded-full bg-blue-500 text-white">
+              {t('pricing.recommended')}
+            </span>
+          )}
+          <h3 class="text-lg font-semibold">{plan.name}</h3>
+          <div class="mt-4 flex items-baseline gap-1">
+            <span class="text-4xl font-bold">¥{plan.price}</span>
+            <span class={`text-sm ${plan.highlight ? 'text-gray-400 dark:text-gray-500' : 'text-gray-500 dark:text-gray-400'}`}>{plan.period}</span>
+          </div>
+          {plan.yearPrice && (
+            <p class={`mt-1 text-xs ${plan.highlight ? 'text-gray-400 dark:text-gray-500' : 'text-gray-400 dark:text-gray-500'}`}>
+              {t('pricing.yearly')} ¥{plan.yearPrice}（{plan.yearSave}）
+            </p>
+          )}
+          <ul class="mt-8 space-y-3 flex-1">
+            {plan.features.map(feature => (
+              <li class="flex items-start gap-2.5 text-sm">
+                <svg class={`w-4 h-4 mt-0.5 flex-shrink-0 ${plan.highlight ? 'text-blue-400' : 'text-green-500'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span class={plan.highlight ? 'text-gray-300 dark:text-gray-600' : 'text-gray-600 dark:text-gray-400'}>{feature}</span>
+              </li>
+            ))}
+          </ul>
+          <a href="#download" class={`mt-8 block text-center py-3 px-6 rounded-full text-sm font-medium transition-colors
+            ${plan.highlight
+              ? 'bg-white text-gray-900 hover:bg-gray-100 dark:bg-gray-900 dark:text-white dark:hover:bg-gray-800'
+              : 'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
+            {plan.cta}
+          </a>
+        </div>
+      ))}
+    </div>
+
+    <p class="mt-10 text-center text-sm text-gray-500 dark:text-gray-400">
+      <span class="inline-flex items-center gap-1.5">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+        </span>
+        {t('pricing.founder')}
+      </span>
+    </p>
+  </div>
+</section>

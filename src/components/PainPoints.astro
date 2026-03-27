@@ -1,0 +1,45 @@
+---
+import { getLocaleFromUrl, useTranslations } from '../i18n/utils'
+const locale = getLocaleFromUrl(Astro.url)
+const t = useTranslations(locale)
+
+const pains = [
+  { icon: '🔍', title: t('pain.1.title'), desc: t('pain.1.desc') },
+  { icon: '📋', title: t('pain.2.title'), desc: t('pain.2.desc') },
+  { icon: '💊', title: t('pain.3.title'), desc: t('pain.3.desc') },
+  { icon: '🧾', title: t('pain.4.title'), desc: t('pain.4.desc') },
+]
+---
+
+<section class="relative py-24 sm:py-32">
+  <div class="max-w-4xl mx-auto px-6 text-center">
+    <p class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-4">{t('pain.title')}</p>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mt-12">
+      {pains.map((pain, index) => (
+        <div
+          class="pain-card group relative p-6 rounded-2xl text-left
+                 bg-gray-50 dark:bg-gray-900 border border-gray-100 dark:border-gray-800
+                 hover:border-gray-200 dark:hover:border-gray-700
+                 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+          style={`animation-delay: ${index * 150}ms`}
+        >
+          <span class="text-3xl block mb-3">{pain.icon}</span>
+          <h3 class="font-semibold text-base">{pain.title}</h3>
+          <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{pain.desc}</p>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-16">
+      <p class="text-2xl sm:text-3xl font-bold">
+        {t('pain.transition.prefix')}<span class="shimmer bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500 bg-clip-text text-transparent bg-[length:200%_100%]">{t('pain.transition')}</span>{t('pain.transition.suffix')}
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .shimmer { animation: shimmer 3s ease-in-out infinite; }
+  @keyframes shimmer { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+</style>

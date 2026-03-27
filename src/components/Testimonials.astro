@@ -1,0 +1,42 @@
+---
+import { Marquee } from './magicui/Marquee'
+import { getLocaleFromUrl } from '../i18n/utils'
+const locale = getLocaleFromUrl(Astro.url)
+
+const testimonials = locale === 'zh' ? [
+  { name: '小王', tag: '职场打工人', text: '以前报销找发票要翻半天，现在搜一下就出来了' },
+  { name: '陈妈妈', tag: '两娃家长', text: '孩子的疫苗记录、体检报告终于有个统一的地方了' },
+  { name: 'Lisa', tag: '自由职业者', text: '最惊喜的是简报功能，每月自动帮我算教育支出' },
+  { name: '老张', tag: '财务主管', text: '几百张发票拍照导入，分类搜索比手动整理快十倍' },
+  { name: '小林', tag: '租房族', text: '再也不怕合同条款记不住，问一句就找到原文了' },
+] : [
+  { name: 'Alex', tag: 'Office worker', text: 'Finding receipts for reimbursement used to take forever. Now it\'s one search away.' },
+  { name: 'Sarah', tag: 'Parent of two', text: 'Finally a single place for all vaccination records and checkup reports.' },
+  { name: 'Lisa', tag: 'Freelancer', text: 'The briefing feature is amazing — it auto-calculates my monthly education spending.' },
+  { name: 'Mike', tag: 'Finance lead', text: 'Imported hundreds of invoices. Categorized and searchable in minutes, not hours.' },
+  { name: 'Jenny', tag: 'Renter', text: 'Never worry about forgetting contract terms. Just ask and get the exact clause.' },
+]
+---
+
+<section class="py-20 sm:py-28 overflow-hidden">
+  <div class="max-w-7xl mx-auto px-6 mb-12 text-center">
+    <h2 class="text-3xl sm:text-4xl font-bold reveal">{locale === 'zh' ? '用户怎么说' : 'What users say'}</h2>
+  </div>
+
+  <Marquee client:visible speed={35} pauseOnHover={true}>
+    {testimonials.map(t => (
+      <div class="flex-shrink-0 w-[320px] p-6 rounded-2xl border border-gray-200/60 dark:border-white/10 bg-white/60 dark:bg-white/5 backdrop-blur-sm">
+        <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">"{t.text}"</p>
+        <div class="mt-4 flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-xs font-bold">
+            {t.name.charAt(0)}
+          </div>
+          <div>
+            <p class="text-sm font-medium">{t.name}</p>
+            <p class="text-xs text-gray-400">{t.tag}</p>
+          </div>
+        </div>
+      </div>
+    ))}
+  </Marquee>
+</section>

@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+/* === Magic UI 动画 === */
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(-100% - var(--gap))); }
+}
+
+@keyframes shimmer-slide {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
+}
+
+@keyframes border-beam {
+  from { --border-beam-angle: 0; }
+  to { --border-beam-angle: 360; }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@property --border-beam-angle {
+  syntax: "<number>";
+  initial-value: 0;
+  inherits: false;
+}
+
+/* === Tailwind 自定义动画工具类 === */
+
+@utility animate-marquee {
+  animation: marquee var(--duration, 40s) linear infinite;
+}
+
+@utility animate-shimmer-slide {
+  animation: shimmer-slide 3s ease-in-out infinite;
+}
+
+@utility animate-border-beam {
+  animation: border-beam 12s linear infinite;
+}
+
+@utility animate-fade-in-up {
+  animation: fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@utility animate-fade-in {
+  animation: fade-in 0.6s ease-out both;
+}
+
+@utility animate-scale-in {
+  animation: scale-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* === 滚动触发动画（配合 IntersectionObserver） === */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* stagger 延迟 */
+.reveal[data-delay="1"] { transition-delay: 0.1s; }
+.reveal[data-delay="2"] { transition-delay: 0.2s; }
+.reveal[data-delay="3"] { transition-delay: 0.3s; }
+.reveal[data-delay="4"] { transition-delay: 0.4s; }
+.reveal[data-delay="5"] { transition-delay: 0.5s; }
+
+/* === Lenis 平滑滚动 === */
+
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+/* === 暗色模式过渡 === */
+
+* {
+  transition-property: background-color, border-color;
+  transition-duration: 0.2s;
+}
+
+/* === 选择文本颜色 === */
+
+::selection {
+  background-color: rgba(99, 102, 241, 0.3);
+}

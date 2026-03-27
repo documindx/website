@@ -1,0 +1,41 @@
+---
+import { getLocaleFromUrl, useTranslations } from '../i18n/utils'
+const locale = getLocaleFromUrl(Astro.url)
+const t = useTranslations(locale)
+const homeUrl = locale === 'zh' ? '/' : '/en'
+---
+
+<footer class="bg-gray-950 text-gray-400 border-t border-white/5">
+  <div class="max-w-7xl mx-auto px-6 py-12">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div class="col-span-2 md:col-span-1">
+        <a href={homeUrl} class="flex items-center gap-2 text-white text-lg font-semibold">
+          <span class="text-2xl">📄</span><span>DocuMind</span>
+        </a>
+        <p class="mt-3 text-xs leading-relaxed">{t('footer.tagline')}</p>
+      </div>
+      <div>
+        <h4 class="text-sm font-semibold text-white mb-4">{t('footer.product')}</h4>
+        <ul class="space-y-2 text-sm">
+          <li><a href="#features" class="hover:text-white transition-colors">{t('footer.product.features')}</a></li>
+          <li><a href="#pricing" class="hover:text-white transition-colors">{t('footer.product.pricing')}</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-sm font-semibold text-white mb-4">{t('footer.support')}</h4>
+        <ul class="space-y-2 text-sm">
+          <li><a href="#faq" class="hover:text-white transition-colors">{t('footer.support.faq')}</a></li>
+          <li><a href="mailto:support@documindx.com" class="hover:text-white transition-colors">{t('footer.support.contact')}</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-sm font-semibold text-white mb-4">{t('footer.legal')}</h4>
+        <ul class="space-y-2 text-sm">
+          <li><a href="/privacy" class="hover:text-white transition-colors">{t('footer.legal.privacy')}</a></li>
+          <li><a href="/terms" class="hover:text-white transition-colors">{t('footer.legal.terms')}</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="mt-12 pt-8 border-t border-white/5 text-xs text-center">{t('footer.copyright')}</div>
+  </div>
+</footer>

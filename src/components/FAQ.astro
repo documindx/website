@@ -1,0 +1,34 @@
+---
+import { getLocaleFromUrl, useTranslations } from '../i18n/utils'
+const locale = getLocaleFromUrl(Astro.url)
+const t = useTranslations(locale)
+
+const faqs = [
+  { q: t('faq.1.q'), a: t('faq.1.a') },
+  { q: t('faq.2.q'), a: t('faq.2.a') },
+  { q: t('faq.3.q'), a: t('faq.3.a') },
+  { q: t('faq.4.q'), a: t('faq.4.a') },
+  { q: t('faq.5.q'), a: t('faq.5.a') },
+]
+---
+
+<section id="faq" class="py-24 sm:py-32">
+  <div class="max-w-2xl mx-auto px-6">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl sm:text-4xl font-bold reveal">{t('faq.title')}</h2>
+    </div>
+    <div class="space-y-3">
+      {faqs.map(faq => (
+        <details class="group rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
+          <summary class="flex items-center justify-between p-5 cursor-pointer select-none hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors">
+            <span class="font-medium text-sm">{faq.q}</span>
+            <svg class="w-5 h-5 flex-shrink-0 text-gray-400 transition-transform duration-200 group-open:rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v12M6 12h12"/>
+            </svg>
+          </summary>
+          <div class="px-5 pb-5 text-sm text-gray-500 dark:text-gray-400 leading-relaxed">{faq.a}</div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

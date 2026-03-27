@@ -1,0 +1,77 @@
+---
+import '../styles/global.css'
+import { getLocaleFromUrl, getHtmlLang } from '../i18n/utils'
+
+interface Props {
+  title?: string
+  description?: string
+}
+
+const locale = getLocaleFromUrl(Astro.url)
+const htmlLang = getHtmlLang(locale)
+
+const defaults = {
+  zh: {
+    title: 'DocuMind - 拍照即归档，提问即答案',
+    description: 'AI 驱动的个人文档知识库。拍照自动归档，自然语言搜索，跨文档智能问答。',
+  },
+  en: {
+    title: 'DocuMind - Snap to Archive, Ask for Answers',
+    description: 'AI-powered personal document knowledge base. Auto-archive with a photo, search naturally, get answers.',
+  },
+}
+
+const {
+  title = defaults[locale].title,
+  description = defaults[locale].description,
+} = Astro.props
+---
+
+<!doctype html>
+<html lang={htmlLang} class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <link rel="alternate" hreflang="zh" href={Astro.site?.origin ?? ''} />
+    <link rel="alternate" hreflang="en" href={`${Astro.site?.origin ?? ''}/en`} />
+    <title>{title}</title>
+  </head>
+  <body class="bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-100 antialiased">
+    <slot />
+
+    <!-- Lenis 平滑滚动 + 滚动触发动画 -->
+    <script>
+      import Lenis from 'lenis'
+
+      // 平滑滚动
+      const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      })
+
+      function raf(time: number) {
+        lenis.raf(time)
+        requestAnimationFrame(raf)
+      }
+      requestAnimationFrame(raf)
+
+      // 滚动触发 .reveal 元素
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible')
+            }
+          })
+        },
+        { threshold: 0.15, rootMargin: '0px 0px -50px 0px' }
+      )
+
+      document.querySelectorAll('.reveal').forEach((el) => observer.observe(el))
+    </script>
+  </body>
+</html>
