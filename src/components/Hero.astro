@@ -75,11 +75,16 @@ const t = useTranslations(locale)
            style="transform: rotateY(-5deg) rotateX(5deg)">
         <div class="relative rounded-[3rem] bg-gradient-to-b from-gray-800 to-gray-900 dark:from-gray-700 dark:to-gray-800 p-3 shadow-2xl shadow-indigo-500/10 dark:shadow-indigo-500/5">
           <div class="rounded-[2.4rem] overflow-hidden bg-gray-100 dark:bg-gray-900 aspect-[9/19.5]">
-            <div class="w-full h-full flex flex-col items-center justify-center text-center p-8 bg-gradient-to-b from-indigo-50 to-white dark:from-gray-900 dark:to-gray-800">
-              <div class="text-6xl mb-4">📄</div>
-              <p class="text-sm font-medium text-gray-900 dark:text-white">DocuMind</p>
-              <p class="text-xs text-gray-500 mt-1">{t('hero.mockup.placeholder')}</p>
-            </div>
+            <video
+              class="w-full h-full object-cover"
+              autoplay
+              muted
+              loop
+              playsinline
+              poster="/screenshots/hero-poster.jpg"
+            >
+              <source src="/screenshots/hero-demo.mp4" type="video/mp4" />
+            </video>
           </div>
         </div>
         <!-- 反射光 -->

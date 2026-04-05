@@ -4,10 +4,10 @@ const locale = getLocaleFromUrl(Astro.url)
 const t = useTranslations(locale)
 
 const pains = [
-  { icon: '🔍', title: t('pain.1.title'), desc: t('pain.1.desc') },
-  { icon: '📋', title: t('pain.2.title'), desc: t('pain.2.desc') },
-  { icon: '💊', title: t('pain.3.title'), desc: t('pain.3.desc') },
-  { icon: '🧾', title: t('pain.4.title'), desc: t('pain.4.desc') },
+  { icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>', accent: 'from-blue-500/20 to-cyan-500/10', title: t('pain.1.title'), desc: t('pain.1.desc') },
+  { icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 13H8"/><path d="M16 13h-2"/><path d="M10 17H8"/><path d="M16 17h-2"/></svg>', accent: 'from-amber-500/20 to-orange-500/10', title: t('pain.2.title'), desc: t('pain.2.desc') },
+  { icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>', accent: 'from-rose-500/20 to-pink-500/10', title: t('pain.3.title'), desc: t('pain.3.desc') },
+  { icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><path d="M8 7h8"/><path d="M8 11h8"/><path d="M8 15h4"/></svg>', accent: 'from-violet-500/20 to-indigo-500/10', title: t('pain.4.title'), desc: t('pain.4.desc') },
 ]
 ---
 
@@ -18,15 +18,20 @@ const pains = [
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mt-12">
       {pains.map((pain, index) => (
         <div
-          class="pain-card group relative p-6 rounded-2xl text-left
-                 bg-gray-50 dark:bg-gray-900 border border-gray-100 dark:border-gray-800
+          class="pain-card group relative overflow-hidden p-6 sm:p-8 rounded-2xl text-left
+                 bg-gray-50 dark:bg-gray-900/80 border border-gray-100 dark:border-gray-800
                  hover:border-gray-200 dark:hover:border-gray-700
-                 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+                 transition-all duration-500 hover:-translate-y-1 hover:shadow-xl"
           style={`animation-delay: ${index * 150}ms`}
         >
-          <span class="text-3xl block mb-3">{pain.icon}</span>
-          <h3 class="font-semibold text-base">{pain.title}</h3>
-          <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{pain.desc}</p>
+          {/* 渐变光晕 */}
+          <div class={`absolute -top-6 -right-6 w-32 h-32 bg-gradient-to-bl ${pain.accent} rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`} />
+
+          <div class="relative z-10">
+            <span class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 group-hover:scale-110 transition-transform duration-300" set:html={pain.icon} />
+            <h3 class="mt-4 font-semibold text-base">{pain.title}</h3>
+            <p class="mt-1.5 text-sm text-gray-500 dark:text-gray-400 leading-relaxed">{pain.desc}</p>
+          </div>
         </div>
       ))}
     </div>

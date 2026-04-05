@@ -112,14 +112,12 @@ export const translations = {
     'faq.title': '常见问题',
     'faq.1.q': '免费版够用吗？',
     'faq.1.a': '每月 20 页扫描 + 关键词搜索无限，轻度用户完全够用。觉得不够再升级，随时可以。',
-    'faq.2.q': '数据存在哪里？安全吗？',
-    'faq.2.a': '所有数据存储在阿里云国内服务器，加密传输 + 加密存储，不会用于任何 AI 模型训练。',
+    'faq.2.q': '我的数据安全吗？',
+    'faq.2.a': '全程加密传输和存储，你的文档不会用于任何 AI 模型训练。你可以随时导出或彻底删除所有数据，删除即销毁，服务器不保留副本。',
     'faq.3.q': '能退款吗？',
     'faq.3.a': '通过 Apple 订阅管理，随时取消自动续费，按 Apple 退款政策处理。',
     'faq.4.q': '支持哪些文档格式？',
     'faq.4.a': '图片（JPEG/PNG/HEIC）、PDF、Office（Word/Excel/PPT）、WPS、CSV、ZIP 压缩包批量导入。',
-    'faq.5.q': '以后会涨价吗？',
-    'faq.5.a': '创始会员价格永久锁定，不受后续调价影响。',
 
     // Download
     'download.title': '现在开始，让文档为你工作',
@@ -129,8 +127,8 @@ export const translations = {
     'trust.1.desc': '传输和存储全程加密，只有你能看到',
     'trust.2.title': '不训练你的数据',
     'trust.2.desc': '你的文档不会用于任何 AI 模型训练',
-    'trust.3.title': '国内合规存储',
-    'trust.3.desc': '阿里云服务器，数据不出境',
+    'trust.3.title': '随时可删除',
+    'trust.3.desc': '一键导出或彻底删除，数据去留你说了算',
 
     // Footer
     'footer.tagline': 'AI 驱动的个人文档知识库',
@@ -252,14 +250,12 @@ export const translations = {
     'faq.title': 'FAQ',
     'faq.1.q': 'Is the free plan enough?',
     'faq.1.a': '20 pages/month scanning + unlimited keyword search. Plenty for light users. Upgrade anytime.',
-    'faq.2.q': 'Where is my data stored? Is it safe?',
-    'faq.2.a': 'All data is stored on Alibaba Cloud servers in China, with encrypted transmission and storage. Never used for AI training.',
+    'faq.2.q': 'Is my data safe?',
+    'faq.2.a': 'End-to-end encrypted in transit and at rest. Your documents are never used for AI training. You can export or permanently delete all your data anytime — once deleted, nothing is retained on our servers.',
     'faq.3.q': 'Can I get a refund?',
     'faq.3.a': "Managed through Apple subscriptions. Cancel anytime, refunds follow Apple's policy.",
     'faq.4.q': 'What document formats are supported?',
     'faq.4.a': 'Images (JPEG/PNG/HEIC), PDF, Office (Word/Excel/PPT), WPS, CSV, ZIP batch import.',
-    'faq.5.q': 'Will prices go up?',
-    'faq.5.a': 'Founding member pricing is locked in forever.',
 
     // Download
     'download.title': 'Let your documents work for you',
@@ -269,8 +265,8 @@ export const translations = {
     'trust.1.desc': 'Encrypted in transit and at rest — only you can see it',
     'trust.2.title': 'No data training',
     'trust.2.desc': 'Your documents are never used for AI model training',
-    'trust.3.title': 'Compliant storage',
-    'trust.3.desc': 'Alibaba Cloud servers, data stays in China',
+    'trust.3.title': 'Delete anytime',
+    'trust.3.desc': 'Export or permanently delete your data whenever you want',
 
     // Footer
     'footer.tagline': 'AI-powered personal document knowledge base',

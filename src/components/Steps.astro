@@ -8,38 +8,42 @@ const steps = [
     num: '01', title: t('step.1.title'),
     points: [t('step.1.p1'), t('step.1.p2')],
     note: t('step.1.note'), gradient: 'from-blue-500 to-cyan-500',
+    images: ['/screenshots/step-01-a.jpg', '/screenshots/step-01-b.jpg', '/screenshots/step-01-c.jpg'],
   },
   {
     num: '02', title: t('step.2.title'),
     points: [t('step.2.p1'), t('step.2.p2')],
     note: t('step.2.note'), gradient: 'from-purple-500 to-pink-500',
+    images: ['/screenshots/step-02-a.jpg', '/screenshots/step-02-b.jpg'],
   },
   {
     num: '03', title: t('step.3.title'),
     points: [t('step.3.p1'), t('step.3.p2')],
     note: t('step.3.note'), gradient: 'from-orange-500 to-rose-500',
+    images: ['/screenshots/step-03-a.jpg', '/screenshots/step-03-b.jpg', '/screenshots/step-03-c.jpg'],
   },
 ]
 ---
 
 <section id="features" class="py-24 sm:py-32">
-  <div class="max-w-7xl mx-auto px-6">
+  <div class="max-w-6xl mx-auto px-6">
     <div class="text-center mb-16 sm:mb-20">
       <p class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-4">{t('steps.label')}</p>
       <h2 class="text-3xl sm:text-4xl font-bold">{t('steps.title')}</h2>
     </div>
 
-    <div class="space-y-20 sm:space-y-32">
+    <div class="space-y-16 sm:space-y-24">
       {steps.map((step, index) => (
-        <div class={`reveal flex flex-col ${index % 2 === 1 ? 'lg:flex-row-reverse' : 'lg:flex-row'} items-center gap-12 lg:gap-20`}>
-          <div class="flex-1">
+        <div class={`reveal flex flex-col ${index % 2 === 1 ? 'lg:flex-row-reverse' : 'lg:flex-row'} items-center gap-10 lg:gap-16`}>
+          <!-- 文字侧 -->
+          <div class="flex-1 text-center lg:text-left">
             <span class={`text-sm font-bold bg-gradient-to-r ${step.gradient} bg-clip-text text-transparent`}>
               Step {step.num}
             </span>
             <h3 class="mt-3 text-2xl sm:text-3xl font-bold">{step.title}</h3>
             <ul class="mt-6 space-y-3">
               {step.points.map(point => (
-                <li class="flex items-start gap-3 text-gray-600 dark:text-gray-400">
+                <li class="flex items-start gap-3 text-gray-600 dark:text-gray-400 justify-center lg:justify-start">
                   <svg class="w-5 h-5 mt-0.5 flex-shrink-0 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                   </svg>
@@ -49,11 +53,33 @@ const steps = [
             </ul>
             <p class="mt-4 text-sm italic text-gray-400 dark:text-gray-500">{step.note}</p>
           </div>
-          <div class="flex-1 w-full max-w-md">
-            <div class={`aspect-[4/3] rounded-2xl bg-gradient-to-br ${step.gradient} p-[1px]`}>
-              <div class="w-full h-full rounded-2xl bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
-                <p class="text-sm text-gray-400">Step {step.num}</p>
+
+          <!-- 手机 Mockup -->
+          <div class="flex-shrink-0">
+            <div class="relative w-[200px] sm:w-[220px]">
+              <div class="relative rounded-[2rem] bg-gradient-to-b from-gray-800 to-gray-900 dark:from-gray-700 dark:to-gray-800 p-2 shadow-2xl">
+                <div class="step-carousel relative rounded-[1.6rem] overflow-hidden bg-gray-100 dark:bg-gray-900 aspect-[9/19.5]">
+                  {step.images.map((src, i) => (
+                    <img
+                      src={src}
+                      alt={`${step.title} - ${i + 1}`}
+                      class="step-slide absolute inset-0 w-full h-full object-cover object-top"
+                      style={`opacity: ${i === 0 ? 1 : 0}; transition: opacity 0.8s ease-in-out;`}
+                      loading="lazy"
+                    />
+                  ))}
+                  <div class="absolute bottom-2.5 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+                    {step.images.map((_, i) => (
+                      <span
+                        class="step-dot rounded-full"
+                        style={`height: 5px; width: ${i === 0 ? '14px' : '5px'}; background: ${i === 0 ? 'rgba(255,255,255,1)' : 'rgba(255,255,255,0.5)'}; transition: all 0.4s ease;`}
+                      />
+                    ))}
+                  </div>
+                </div>
               </div>
+              <div class="absolute inset-0 rounded-[2rem] bg-gradient-to-tr from-transparent via-white/10 to-transparent pointer-events-none"></div>
+              <div class={`absolute -bottom-3 left-1/2 -translate-x-1/2 w-3/4 h-5 rounded-full blur-xl bg-gradient-to-r ${step.gradient} opacity-20`}></div>
             </div>
           </div>
         </div>
@@ -61,3 +87,31 @@ const steps = [
     </div>
   </div>
 </section>
+
+<script>
+  document.querySelectorAll('.step-carousel').forEach((carousel) => {
+    const slides = carousel.querySelectorAll('.step-slide') as NodeListOf<HTMLElement>
+    const dots = carousel.querySelectorAll('.step-dot') as NodeListOf<HTMLElement>
+    if (slides.length <= 1) return
+
+    let current = 0
+    function next() {
+      const delay = current === 0 ? 5000 : 3000
+
+      setTimeout(() => {
+        slides[current].style.opacity = '0'
+        dots[current].style.width = '5px'
+        dots[current].style.background = 'rgba(255,255,255,0.5)'
+
+        current = (current + 1) % slides.length
+
+        slides[current].style.opacity = '1'
+        dots[current].style.width = '14px'
+        dots[current].style.background = 'rgba(255,255,255,1)'
+
+        next()
+      }, delay)
+    }
+    next()
+  })
+</script>
