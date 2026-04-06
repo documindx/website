@@ -76,11 +76,12 @@ const t = useTranslations(locale)
         <div class="relative rounded-[3rem] bg-gradient-to-b from-gray-800 to-gray-900 dark:from-gray-700 dark:to-gray-800 p-3 shadow-2xl shadow-indigo-500/10 dark:shadow-indigo-500/5">
           <div class="rounded-[2.4rem] overflow-hidden bg-gray-100 dark:bg-gray-900 aspect-[9/19.5]">
             <video
+              id="hero-video"
               class="w-full h-full object-cover"
-              autoplay
               muted
               loop
               playsinline
+              preload="none"
               poster="/screenshots/hero-poster.jpg"
             >
               <source src="/screenshots/hero-demo.mp4" type="video/mp4" />
@@ -106,6 +107,10 @@ const t = useTranslations(locale)
 <style>
   .hero-glow { animation: glow-drift 8s ease-in-out infinite alternate; }
   @keyframes glow-drift { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, -20px) scale(1.1); } }
+  /* 移动端简化光晕：缩小尺寸、降低 blur */
+  @media (max-width: 768px) {
+    .hero-glow { width: 200px !important; height: 200px !important; filter: blur(60px); animation: none; }
+  }
 </style>
 
 <script>
@@ -117,6 +122,13 @@ const t = useTranslations(locale)
     if (i < text.length) { titleEl.textContent += text.charAt(i); i++; setTimeout(typeWriter, 80) }
   }
   setTimeout(typeWriter, 600)
+
+  // 延迟加载视频，避免阻塞首屏
+  const video = document.getElementById('hero-video') as HTMLVideoElement
+  if (video) {
+    video.preload = 'auto'
+    video.play().catch(() => {})
+  }
 
   // 手机视差
   const mockup = document.getElementById('phone-mockup')!

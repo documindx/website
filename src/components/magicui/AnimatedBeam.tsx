@@ -5,6 +5,9 @@ export function AnimatedGridBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
+    // 移动端跳过 Canvas 动画，用纯 CSS 替代
+    if (window.matchMedia('(max-width: 768px)').matches) return
+
     const canvas = canvasRef.current
     if (!canvas) return
     const ctx = canvas.getContext('2d')
@@ -13,10 +16,13 @@ export function AnimatedGridBackground() {
     let animationId: number
     let time = 0
 
+    // 限制 Canvas 分辨率，避免高 DPI 下性能问题
+    const dpr = Math.min(window.devicePixelRatio, 2)
+
     function resize() {
-      canvas!.width = canvas!.offsetWidth * window.devicePixelRatio
-      canvas!.height = canvas!.offsetHeight * window.devicePixelRatio
-      ctx!.scale(window.devicePixelRatio, window.devicePixelRatio)
+      canvas!.width = canvas!.offsetWidth * dpr
+      canvas!.height = canvas!.offsetHeight * dpr
+      ctx!.setTransform(dpr, 0, 0, dpr, 0, 0)
     }
 
     function draw() {
