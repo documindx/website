@@ -13,11 +13,11 @@ const htmlLang = getHtmlLang(locale)
 const defaults = {
   zh: {
     title: 'DocuMind - 拍照即归档，提问即答案',
-    description: 'AI 驱动的个人文档知识库。拍照自动归档，自然语言搜索，跨文档智能问答。',
+    description: 'AI 驱动的个人文档知识库。拍照自动归档，自然语言搜索，跨文档智能问答。支持发票、合同、病历、证件等各类文档的智能管理。',
   },
   en: {
     title: 'DocuMind - Snap to Archive, Ask for Answers',
-    description: 'AI-powered personal document knowledge base. Auto-archive with a photo, search naturally, get answers.',
+    description: 'AI-powered personal document knowledge base. Auto-archive with a photo, search naturally, get cross-document answers with source citations.',
   },
 }
 
@@ -25,6 +25,54 @@ const {
   title = defaults[locale].title,
   description = defaults[locale].description,
 } = Astro.props
+
+const siteUrl = Astro.site?.origin ?? 'https://documindx.com'
+const canonicalUrl = locale === 'zh' ? siteUrl : `${siteUrl}/en`
+const ogImage = `${siteUrl}/screenshots/og-image.jpg`
+
+// JSON-LD 结构化数据
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      name: 'DocuMind',
+      url: siteUrl,
+      description: defaults.en.description,
+      inLanguage: ['zh-CN', 'en'],
+    },
+    {
+      '@type': 'Organization',
+      name: 'DocuMind',
+      url: siteUrl,
+      logo: `${siteUrl}/icon.png`,
+    },
+    {
+      '@type': 'SoftwareApplication',
+      name: 'DocuMind',
+      applicationCategory: 'UtilitiesApplication',
+      operatingSystem: 'iOS',
+      offers: {
+        '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'CNY',
+      },
+      description: defaults.en.description,
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: locale === 'zh' ? [
+        { '@type': 'Question', name: '免费版够用吗？', acceptedAnswer: { '@type': 'Answer', text: '免费版每月 20 页扫描、100 次搜索、2 个智能简报、500 MB 存储，适合轻度使用。' }},
+        { '@type': 'Question', name: '数据安全吗？', acceptedAnswer: { '@type': 'Answer', text: '所有数据加密存储，支持 Face ID 锁定，不用于 AI 训练，无广告无追踪。' }},
+        { '@type': 'Question', name: '支持哪些文档格式？', acceptedAnswer: { '@type': 'Answer', text: '支持图片（JPG/PNG/WebP/HEIC）、PDF、Word、Excel、PPT、CSV、WPS 及 ZIP 批量导入。' }},
+      ] : [
+        { '@type': 'Question', name: 'Is the free plan enough?', acceptedAnswer: { '@type': 'Answer', text: 'The free plan includes 20 pages/month, 100 searches, 2 briefings, and 500 MB storage.' }},
+        { '@type': 'Question', name: 'Is my data secure?', acceptedAnswer: { '@type': 'Answer', text: 'All data is encrypted, supports Face ID lock, never used for AI training, no ads or tracking.' }},
+        { '@type': 'Question', name: 'What formats are supported?', acceptedAnswer: { '@type': 'Answer', text: 'Images (JPG/PNG/WebP/HEIC), PDF, Word, Excel, PPT, CSV, WPS, and batch ZIP import.' }},
+      ],
+    },
+  ],
+}
 ---
 
 <!doctype html>
@@ -33,12 +81,37 @@ const {
     <meta charset="utf-8" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/icon-180.png" />
+    <link rel="manifest" href="/manifest.json" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-    <link rel="alternate" hreflang="zh" href={Astro.site?.origin ?? ''} />
-    <link rel="alternate" hreflang="en" href={`${Astro.site?.origin ?? ''}/en`} />
+
+    <!-- Canonical + Hreflang -->
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="zh" href={siteUrl} />
+    <link rel="alternate" hreflang="en" href={`${siteUrl}/en`} />
+    <link rel="alternate" hreflang="x-default" href={siteUrl} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:site_name" content="DocuMind" />
+    <meta property="og:locale" content={locale === 'zh' ? 'zh_CN' : 'en'} />
+    <meta property="og:locale:alternate" content={locale === 'zh' ? 'en' : 'zh_CN'} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- JSON-LD -->
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
     <title>{title}</title>
   </head>
   <body class="bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-100 antialiased">

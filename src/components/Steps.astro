@@ -8,19 +8,30 @@ const steps = [
     num: '01', title: t('step.1.title'),
     points: [t('step.1.p1'), t('step.1.p2')],
     note: t('step.1.note'), gradient: 'from-blue-500 to-cyan-500',
-    images: ['/screenshots/step-01-a.jpg', '/screenshots/step-01-b.jpg', '/screenshots/step-01-c.jpg'],
+    images: [
+      { src: '/screenshots/step-01-a.jpg', alt: locale === 'zh' ? 'DocuMind 文档列表 — AI 自动分类为健康、财务、合同等类别' : 'DocuMind document list — AI auto-categorized into health, finance, contracts' },
+      { src: '/screenshots/step-01-b.jpg', alt: locale === 'zh' ? '体检报告结构化表格 — 自动提取关键检查指标' : 'Medical report structured table — key health metrics auto-extracted' },
+      { src: '/screenshots/step-01-c.jpg', alt: locale === 'zh' ? '机票行程实体卡片 — 航班、金额、日期一目了然' : 'Flight itinerary entity card — flight, amount, date at a glance' },
+    ],
   },
   {
     num: '02', title: t('step.2.title'),
     points: [t('step.2.p1'), t('step.2.p2')],
     note: t('step.2.note'), gradient: 'from-purple-500 to-pink-500',
-    images: ['/screenshots/step-02-a.jpg', '/screenshots/step-02-b.jpg'],
+    images: [
+      { src: '/screenshots/step-02-a.jpg', alt: locale === 'zh' ? 'AI 深度搜索结果 — 自然语言提问"合同到期时间"并给出精准回答' : 'AI deep search — natural language question about contract expiry with precise answer' },
+      { src: '/screenshots/step-02-b.jpg', alt: locale === 'zh' ? '溯源到原文 — 租房合同中高亮标注匹配条款' : 'Source tracing — highlighted matching clause in lease contract' },
+    ],
   },
   {
     num: '03', title: t('step.3.title'),
     points: [t('step.3.p1'), t('step.3.p2')],
     note: t('step.3.note'), gradient: 'from-orange-500 to-rose-500',
-    images: ['/screenshots/step-03-a.jpg', '/screenshots/step-03-b.jpg', '/screenshots/step-03-c.jpg'],
+    images: [
+      { src: '/screenshots/step-03-a.jpg', alt: locale === 'zh' ? 'AI 追踪分析首页 — 薪资追踪、健康提醒、月度支出汇总' : 'AI briefings home — salary tracking, health alerts, monthly expense summary' },
+      { src: '/screenshots/step-03-b.jpg', alt: locale === 'zh' ? '创建智能简报 — 月度支出汇总模板预览' : 'Create smart briefing — monthly expense summary template preview' },
+      { src: '/screenshots/step-03-c.jpg', alt: locale === 'zh' ? '简报详情 — 支出分类排行与消费洞察，引用原始文档' : 'Briefing detail — expense breakdown with insights and source documents' },
+    ],
   },
 ]
 ---
@@ -59,17 +70,17 @@ const steps = [
             <div class="relative w-[200px] sm:w-[220px]">
               <div class="relative rounded-[2rem] bg-gradient-to-b from-gray-800 to-gray-900 dark:from-gray-700 dark:to-gray-800 p-2 shadow-2xl">
                 <div class="step-carousel relative rounded-[1.6rem] overflow-hidden bg-gray-100 dark:bg-gray-900 aspect-[9/19.5]">
-                  {step.images.map((src, i) => (
+                  {step.images.map((img, i) => (
                     <img
-                      src={src}
-                      alt={`${step.title} - ${i + 1}`}
+                      src={img.src}
+                      alt={img.alt}
                       class="step-slide absolute inset-0 w-full h-full object-cover object-top"
                       style={`opacity: ${i === 0 ? 1 : 0}; transition: opacity 0.8s ease-in-out;`}
                       loading="lazy"
                     />
                   ))}
                   <div class="absolute bottom-2.5 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
-                    {step.images.map((_, i) => (
+                    {step.images.map((_img, i) => (
                       <span
                         class="step-dot rounded-full"
                         style={`height: 5px; width: ${i === 0 ? '14px' : '5px'}; background: ${i === 0 ? 'rgba(255,255,255,1)' : 'rgba(255,255,255,0.5)'}; transition: all 0.4s ease;`}
