@@ -14,8 +14,8 @@ const switchPath = getLocalePath(Astro.url.pathname, otherLocale)
 >
   <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
     <a href={locale === 'zh' ? '/' : '/en'} class="flex items-center gap-2 text-lg font-semibold">
-      <img src="/icon.png" alt="DocuMind" class="w-8 h-8 rounded-lg" />
-      <span>DocuMind</span>
+      <img src="/icon.png" alt="DocuMindX" class="w-8 h-8 rounded-lg" />
+      <span>DocuMindX</span>
     </a>
 
     <div class="hidden md:flex items-center gap-8 text-sm">
@@ -25,31 +25,28 @@ const switchPath = getLocalePath(Astro.url.pathname, otherLocale)
     </div>
 
     <div class="flex items-center gap-3">
+      <!-- 主题切换 -->
+      <button
+        id="theme-toggle"
+        class="p-2 opacity-60 hover:opacity-100 transition-opacity rounded-lg hover:bg-gray-100 dark:hover:bg-white/10"
+        aria-label="Toggle theme"
+      >
+        <!-- 太阳（暗色模式下显示，点击切换到亮色） -->
+        <svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+        </svg>
+        <!-- 月亮（亮色模式下显示，点击切换到暗色） -->
+        <svg class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+        </svg>
+      </button>
+
       <!-- 语言切换 -->
       <a
         href={switchPath}
         class="text-xs opacity-60 hover:opacity-100 transition-opacity px-2 py-1 rounded border border-gray-300/30 dark:border-white/10"
       >
         {languages[otherLocale]}
-      </a>
-
-      <a
-        href="https://app.documindx.com"
-        class="hidden md:inline-block text-sm opacity-70 hover:opacity-100 transition-opacity"
-      >
-        {t('nav.webapp')}
-      </a>
-      <a
-        href="#download"
-        class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-full
-               bg-gray-900 text-white hover:bg-gray-800
-               dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100
-               transition-colors"
-      >
-        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
-        </svg>
-        {t('nav.download')}
       </a>
 
       <button
@@ -69,7 +66,6 @@ const switchPath = getLocalePath(Astro.url.pathname, otherLocale)
       <a href="#features" class="py-2 opacity-70 hover:opacity-100">{t('nav.features')}</a>
       <a href="#pricing" class="py-2 opacity-70 hover:opacity-100">{t('nav.pricing')}</a>
       <a href="#faq" class="py-2 opacity-70 hover:opacity-100">{t('nav.help')}</a>
-      <a href="https://app.documindx.com" class="py-2 opacity-70 hover:opacity-100">{t('nav.webapp')}</a>
     </div>
   </div>
 </nav>
@@ -105,4 +101,21 @@ const switchPath = getLocalePath(Astro.url.pathname, otherLocale)
   mobileMenu.querySelectorAll('a').forEach(link =>
     link.addEventListener('click', () => mobileMenu.classList.add('hidden'))
   )
+
+  // 主题切换
+  const themeToggle = document.getElementById('theme-toggle')!
+  function getTheme(): 'light' | 'dark' {
+    const stored = localStorage.getItem('theme')
+    if (stored === 'light' || stored === 'dark') return stored
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+  }
+  function applyTheme(theme: 'light' | 'dark') {
+    document.documentElement.classList.toggle('dark', theme === 'dark')
+    localStorage.setItem('theme', theme)
+  }
+  // 初始化
+  applyTheme(getTheme())
+  themeToggle.addEventListener('click', () => {
+    applyTheme(getTheme() === 'dark' ? 'light' : 'dark')
+  })
 </script>

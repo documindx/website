@@ -12,11 +12,11 @@ const htmlLang = getHtmlLang(locale)
 
 const defaults = {
   zh: {
-    title: 'DocuMind - 拍照即归档，提问即答案',
+    title: 'DocuMindX - 拍照即归档，提问即答案',
     description: 'AI 驱动的个人文档知识库。拍照自动归档，自然语言搜索，跨文档智能问答。支持发票、合同、病历、证件等各类文档的智能管理。',
   },
   en: {
-    title: 'DocuMind - Snap to Archive, Ask for Answers',
+    title: 'DocuMindX - Snap to Archive, Ask for Answers',
     description: 'AI-powered personal document knowledge base. Auto-archive with a photo, search naturally, get cross-document answers with source citations.',
   },
 }
@@ -36,20 +36,20 @@ const jsonLd = {
   '@graph': [
     {
       '@type': 'WebSite',
-      name: 'DocuMind',
+      name: 'DocuMindX',
       url: siteUrl,
       description: defaults.en.description,
       inLanguage: ['zh-CN', 'en'],
     },
     {
       '@type': 'Organization',
-      name: 'DocuMind',
+      name: 'DocuMindX',
       url: siteUrl,
       logo: `${siteUrl}/icon.png`,
     },
     {
       '@type': 'SoftwareApplication',
-      name: 'DocuMind',
+      name: 'DocuMindX',
       applicationCategory: 'UtilitiesApplication',
       operatingSystem: 'iOS',
       offers: {
@@ -99,7 +99,7 @@ const jsonLd = {
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:image" content={ogImage} />
-    <meta property="og:site_name" content="DocuMind" />
+    <meta property="og:site_name" content="DocuMindX" />
     <meta property="og:locale" content={locale === 'zh' ? 'zh_CN' : 'en'} />
     <meta property="og:locale:alternate" content={locale === 'zh' ? 'en' : 'zh_CN'} />
 
@@ -113,6 +113,14 @@ const jsonLd = {
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
     <title>{title}</title>
+    <!-- 防止暗色模式闪烁：在渲染前同步设置 .dark class -->
+    <script is:inline>
+      (function() {
+        var t = localStorage.getItem('theme');
+        var dark = t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        if (dark) document.documentElement.classList.add('dark');
+      })();
+    </script>
   </head>
   <body class="bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-100 antialiased">
     <slot />

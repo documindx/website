@@ -63,7 +63,7 @@ const plans = [
               </li>
             ))}
           </ul>
-          <a href="#download" class={`mt-8 block text-center py-3 px-6 rounded-full text-sm font-medium transition-colors
+          <a href={plan.price === '0' ? '#hero' : '#download'} class={`mt-8 block text-center py-3 px-6 rounded-full text-sm font-medium transition-colors
             ${plan.highlight
               ? 'bg-white text-gray-900 hover:bg-gray-100 dark:bg-gray-900 dark:text-white dark:hover:bg-gray-800'
               : 'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>

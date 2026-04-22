@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* dark mode 使用 class 策略，支持手动切换 */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* === Magic UI 动画 === */
 
 @keyframes marquee {
