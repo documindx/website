@@ -41,10 +41,11 @@ const switchPath = getLocalePath(Astro.url.pathname, otherLocale)
         </svg>
       </button>
 
-      <!-- 语言切换 -->
+      <!-- 语言切换：点击前写 cookie，中间件下次访问不再重定向 -->
       <a
         href={switchPath}
-        class="text-xs opacity-60 hover:opacity-100 transition-opacity px-2 py-1 rounded border border-gray-300/30 dark:border-white/10"
+        data-lang={otherLocale}
+        class="lang-switch text-xs opacity-60 hover:opacity-100 transition-opacity px-2 py-1 rounded border border-gray-300/30 dark:border-white/10"
       >
         {languages[otherLocale]}
       </a>
@@ -117,5 +118,15 @@ const switchPath = getLocalePath(Astro.url.pathname, otherLocale)
   applyTheme(getTheme())
   themeToggle.addEventListener('click', () => {
     applyTheme(getTheme() === 'dark' ? 'light' : 'dark')
+  })
+
+  // 语言切换：点击时先写 cookie，让 middleware 尊重用户选择
+  document.querySelectorAll<HTMLAnchorElement>('a.lang-switch').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = link.dataset.lang
+      if (target === 'zh' || target === 'en') {
+        document.cookie = `lang=${target}; Path=/; Max-Age=${60 * 60 * 24 * 365}; SameSite=Lax`
+      }
+    })
   })
 </script>

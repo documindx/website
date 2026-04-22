@@ -121,6 +121,30 @@ const jsonLd = {
         if (dark) document.documentElement.classList.add('dark');
       })();
     </script>
+    <!-- 语言自动检测：首次访问根路径时按浏览器偏好跳转（阻塞式，避免闪烁） -->
+    <script is:inline>
+      (function () {
+        try {
+          var path = location.pathname;
+          var cookie = document.cookie.split(';').map(function(c){return c.trim()}).find(function(c){return c.indexOf('lang=') === 0});
+          // 已有 lang cookie → 尊重用户选择，不重定向
+          if (cookie) return;
+          // 只在中文根路径（/ 或 /index.html）做检测；/en/* 页面不处理
+          if (path !== '/' && path !== '/index.html' && path !== '') return;
+          // 读浏览器语言偏好
+          var langs = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || 'zh'];
+          var primary = (langs[0] || '').toLowerCase();
+          var prefersEn = primary.indexOf('en') === 0 && primary.indexOf('zh') !== 0;
+          if (prefersEn) {
+            // 写 cookie 防止下次又检测（用户进入 /en 后手动回到 / 会被尊重）
+            document.cookie = 'lang=en; Path=/; Max-Age=31536000; SameSite=Lax';
+            location.replace('/en/');
+          } else {
+            document.cookie = 'lang=zh; Path=/; Max-Age=31536000; SameSite=Lax';
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body class="bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-100 antialiased">
     <slot />
