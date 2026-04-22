@@ -9,6 +9,8 @@ interface ShimmerButtonProps {
   shimmerSize?: string
   background?: string
   href?: string
+  target?: string
+  rel?: string
 }
 
 export function ShimmerButton({
@@ -18,11 +20,15 @@ export function ShimmerButton({
   shimmerSize = '0.1em',
   background = 'linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%)',
   href,
+  target,
+  rel,
 }: ShimmerButtonProps) {
   const Tag = href ? 'a' : 'button'
   return (
     <Tag
       href={href}
+      target={target}
+      rel={rel}
       className={cn(
         'group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full px-8 py-3.5',
         'text-base font-medium text-white transition-all',
