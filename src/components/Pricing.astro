@@ -3,6 +3,18 @@ import { getLocaleFromUrl, useTranslations } from '../i18n/utils'
 const locale = getLocaleFromUrl(Astro.url)
 const t = useTranslations(locale)
 
+// 按地区选货币（以 App Store Connect 实际订阅价格为准）
+// zh → CNY：Pro ¥22 / Ultra ¥38（App Store 中国区）
+// en → USD：Pro $2.99 / Ultra $5.99（App Store 美区标准 tier）
+const currencySymbol = locale === 'zh' ? '¥' : '$'
+const proPrice = locale === 'zh' ? '22' : '2.99'
+const ultraPrice = locale === 'zh' ? '38' : '5.99'
+
+// 按地区选 App Store 链接
+const appStoreUrl = locale === 'zh'
+  ? 'https://apps.apple.com/cn/app/documind/id6758038104'
+  : 'https://apps.apple.com/us/app/documind/id6758038104'
+
 const plans = [
   {
     name: t('pricing.free'), price: '0', period: t('pricing.free.forever'),
@@ -10,13 +22,13 @@ const plans = [
     cta: t('pricing.cta.free'), highlight: false,
   },
   {
-    name: 'Pro', price: '28', yearPrice: '298', yearSave: `${t('pricing.yearly.save')} ¥38`,
+    name: 'Pro', price: proPrice,
     period: t('pricing.period'),
     features: [`300 ${t('pricing.scan')}`, t('pricing.semantic.unlimited'), `10 ${t('pricing.ai')}`, t('pricing.briefing.all'), `10 GB ${t('pricing.storage')}`, t('pricing.export.standard')],
     cta: t('pricing.cta.pro'), highlight: true,
   },
   {
-    name: 'Ultra', price: '58', yearPrice: '598', yearSave: `${t('pricing.yearly.save')} ¥98`,
+    name: 'Ultra', price: ultraPrice,
     period: t('pricing.period'),
     features: [`1000 ${t('pricing.scan')}`, t('pricing.semantic.unlimited'), t('pricing.ai.unlimited'), t('pricing.briefing.priority'), `100 GB ${t('pricing.storage')}`, t('pricing.export.all')],
     cta: t('pricing.cta.ultra'), highlight: false,
@@ -45,14 +57,9 @@ const plans = [
           )}
           <h3 class="text-lg font-semibold">{plan.name}</h3>
           <div class="mt-4 flex items-baseline gap-1">
-            <span class="text-4xl font-bold">¥{plan.price}</span>
+            <span class="text-4xl font-bold">{currencySymbol}{plan.price}</span>
             <span class={`text-sm ${plan.highlight ? 'text-gray-400 dark:text-gray-500' : 'text-gray-500 dark:text-gray-400'}`}>{plan.period}</span>
           </div>
-          {plan.yearPrice && (
-            <p class={`mt-1 text-xs ${plan.highlight ? 'text-gray-400 dark:text-gray-500' : 'text-gray-400 dark:text-gray-500'}`}>
-              {t('pricing.yearly')} ¥{plan.yearPrice}（{plan.yearSave}）
-            </p>
-          )}
           <ul class="mt-8 space-y-3 flex-1">
             {plan.features.map(feature => (
               <li class="flex items-start gap-2.5 text-sm">
@@ -63,7 +70,11 @@ const plans = [
               </li>
             ))}
           </ul>
-          <a href={plan.price === '0' ? '#hero' : '#download'} class={`mt-8 block text-center py-3 px-6 rounded-full text-sm font-medium transition-colors
+          <a
+            href={plan.price === '0' ? '#hero' : appStoreUrl}
+            target={plan.price === '0' ? undefined : '_blank'}
+            rel={plan.price === '0' ? undefined : 'noopener'}
+            class={`mt-8 block text-center py-3 px-6 rounded-full text-sm font-medium transition-colors
             ${plan.highlight
               ? 'bg-white text-gray-900 hover:bg-gray-100 dark:bg-gray-900 dark:text-white dark:hover:bg-gray-800'
               : 'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700'}`}>
