@@ -158,6 +158,7 @@ export const translations = {
     'footer.legal': '法律',
     'footer.legal.privacy': '隐私政策',
     'footer.legal.terms': '服务条款',
+    'footer.legal.refund': '退款政策',
     'footer.copyright': '© 2026 DocuMindX. All rights reserved.',
   },
 
@@ -313,6 +314,7 @@ export const translations = {
     'footer.legal': 'Legal',
     'footer.legal.privacy': 'Privacy Policy',
     'footer.legal.terms': 'Terms of Service',
+    'footer.legal.refund': 'Refund Policy',
     'footer.copyright': '© 2026 DocuMindX. All rights reserved.',
   },
 } as const

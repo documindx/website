@@ -3,6 +3,7 @@ import { getLocaleFromUrl, useTranslations } from '../i18n/utils'
 const locale = getLocaleFromUrl(Astro.url)
 const t = useTranslations(locale)
 const homeUrl = locale === 'zh' ? '/' : '/en'
+const legalPrefix = locale === 'zh' ? '' : '/en'
 ---
 
 <footer class="bg-gray-950 text-gray-400 border-t border-white/5">
@@ -31,8 +32,9 @@ const homeUrl = locale === 'zh' ? '/' : '/en'
       <div>
         <h4 class="text-sm font-semibold text-white mb-4">{t('footer.legal')}</h4>
         <ul class="space-y-2 text-sm">
-          <li><a href="/privacy" class="hover:text-white transition-colors">{t('footer.legal.privacy')}</a></li>
-          <li><a href="/terms" class="hover:text-white transition-colors">{t('footer.legal.terms')}</a></li>
+          <li><a href={`${legalPrefix}/privacy`} class="hover:text-white transition-colors">{t('footer.legal.privacy')}</a></li>
+          <li><a href={`${legalPrefix}/terms`} class="hover:text-white transition-colors">{t('footer.legal.terms')}</a></li>
+          <li><a href={`${legalPrefix}/refund`} class="hover:text-white transition-colors">{t('footer.legal.refund')}</a></li>
         </ul>
       </div>
     </div>
