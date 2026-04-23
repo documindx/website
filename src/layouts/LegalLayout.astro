@@ -30,34 +30,34 @@ const { title, lastUpdated } = Astro.props
 <style is:global>
   .legal-prose {
     color: rgb(55 65 81);
-    line-height: 1.75;
-    font-size: 0.95rem;
+    line-height: 1.8;
+    font-size: 1rem;
   }
-  :global(.dark) .legal-prose {
-    color: rgb(209 213 219);
+  .dark .legal-prose {
+    color: rgb(229 231 235);
   }
   .legal-prose h2 {
-    font-size: 1.5rem;
+    font-size: 1.625rem;
     font-weight: 700;
-    margin-top: 2.5rem;
+    margin-top: 2.75rem;
     margin-bottom: 1rem;
     color: rgb(17 24 39);
     border-bottom: 1px solid rgb(229 231 235);
     padding-bottom: 0.5rem;
   }
-  :global(.dark) .legal-prose h2 {
-    color: rgb(243 244 246);
-    border-bottom-color: rgb(55 65 81);
+  .dark .legal-prose h2 {
+    color: rgb(255 255 255);
+    border-bottom-color: rgb(75 85 99);
   }
   .legal-prose h3 {
-    font-size: 1.125rem;
+    font-size: 1.2rem;
     font-weight: 600;
     margin-top: 1.75rem;
     margin-bottom: 0.75rem;
     color: rgb(31 41 55);
   }
-  :global(.dark) .legal-prose h3 {
-    color: rgb(229 231 235);
+  .dark .legal-prose h3 {
+    color: rgb(243 244 246);
   }
   .legal-prose p {
     margin-top: 0.75rem;
@@ -69,27 +69,33 @@ const { title, lastUpdated } = Astro.props
     margin: 0.75rem 0;
   }
   .legal-prose li {
-    margin: 0.35rem 0;
+    margin: 0.4rem 0;
+  }
+  .legal-prose li::marker {
+    color: rgb(107 114 128);
+  }
+  .dark .legal-prose li::marker {
+    color: rgb(156 163 175);
   }
   .legal-prose strong {
     color: rgb(17 24 39);
     font-weight: 600;
   }
-  :global(.dark) .legal-prose strong {
-    color: rgb(243 244 246);
+  .dark .legal-prose strong {
+    color: rgb(255 255 255);
   }
   .legal-prose a {
     color: rgb(79 70 229);
     text-decoration: underline;
   }
-  :global(.dark) .legal-prose a {
-    color: rgb(129 140 248);
+  .dark .legal-prose a {
+    color: rgb(165 180 252);
   }
   .legal-prose table {
     width: 100%;
     border-collapse: collapse;
     margin: 1rem 0;
-    font-size: 0.875rem;
+    font-size: 0.95rem;
   }
   .legal-prose th,
   .legal-prose td {
@@ -97,23 +103,24 @@ const { title, lastUpdated } = Astro.props
     padding: 0.5rem 0.75rem;
     text-align: left;
   }
-  :global(.dark) .legal-prose th,
-  :global(.dark) .legal-prose td {
-    border-color: rgb(55 65 81);
+  .dark .legal-prose th,
+  .dark .legal-prose td {
+    border-color: rgb(75 85 99);
   }
   .legal-prose th {
     background: rgb(249 250 251);
     font-weight: 600;
   }
-  :global(.dark) .legal-prose th {
+  .dark .legal-prose th {
     background: rgb(31 41 55);
+    color: rgb(255 255 255);
   }
   .legal-prose hr {
     margin: 2rem 0;
     border: none;
     border-top: 1px solid rgb(229 231 235);
   }
-  :global(.dark) .legal-prose hr {
-    border-top-color: rgb(55 65 81);
+  .dark .legal-prose hr {
+    border-top-color: rgb(75 85 99);
   }
 </style>
